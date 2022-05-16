@@ -77,8 +77,6 @@ while (true)
         ">>4: Вывести всех студентов.\n>>5: Вывести всех преподавателей.\n>>6: Вывести все дисциплины." +
         "\n>>7: Поиск по имени\n>>8: Редактирование\n>>9: Выход.");
     int choice;
-
-
     if (Int32.TryParse(Console.ReadLine(), out choice))
     {
         switch (choice)
@@ -91,7 +89,7 @@ while (true)
                 {
                     Console.Write($"{Course.NumbOfCourse} ");
                 }
-                Console.WriteLine(": ");
+                Console.Write(": ");
                 if (Int32.TryParse(Console.ReadLine(), out int NumbOfCourse)
                     && NumbOfCourse < 5)
                 {
@@ -102,11 +100,13 @@ while (true)
                     Console.Clear();
                     Console.WriteLine("Incorrect input");
                 }
+                Console.WriteLine("::------------------------------::");
                 break;
             case 2:
                 Console.WriteLine("Введите ФИО преподавателя");
                 temp = Console.ReadLine()!;
                 AddTeacher(temp);
+                Console.WriteLine("::------------------------------::");
                 break;
             case 3:
                 Console.WriteLine("На каком курсе преподаётся дисциплина?");
@@ -114,7 +114,7 @@ while (true)
                 {
                     Console.Write($"{Course.NumbOfCourse} ");
                 }
-                Console.WriteLine(": ");
+                Console.Write(": ");
                 if (Int32.TryParse(Console.ReadLine(), out int Numb0fCourse)
                     && Numb0fCourse < 5)
                 {
@@ -126,32 +126,25 @@ while (true)
                     }
                     Console.WriteLine("Есть ли преподаватель данной дисциплины в списке? y/n");
                     string YesOrNot = Console.ReadLine()!;
-                    string teacher_name = "undefinedNamed";
-                    switch (YesOrNot)
+                    if (YesOrNot == "y" || YesOrNot == "Y" || YesOrNot == "Н" || YesOrNot == "н")
                     {
-                        case "y":
-                            Console.WriteLine("Введите id преподавателя:");
-                            int id = Int32.Parse(Console.ReadLine()!);
-                            foreach (Teacher teacher in teachers)
+                        Console.WriteLine("Введите id преподавателя:");
+                        int id = Int32.Parse(Console.ReadLine()!);
+                        foreach (Teacher teacher in teachers)
+                        {
+                            if (id == teacher.Id)
                             {
-                                if (id == teacher.Id)
-                                {
-                                    teacher_name = teacher.Name;
-                                }
+                                AddDiscipline(temp, Numb0fCourse, teacher.Name);
                             }
-                            break;
-                        case "n":
-                            break;
-                        default:
-                            break;
+                        }
                     }
-                    AddDiscipline(temp, Numb0fCourse, teacher_name);
                 }
                 else
                 {
                     Console.Clear();
                     Console.WriteLine("Incorrect input");
                 }
+                Console.WriteLine("::------------------------------::");
                 break;
             case 4:
                 Console.Clear();
@@ -159,6 +152,7 @@ while (true)
                 {
                     student.GetInfo(disciplines);
                 }
+                Console.WriteLine("::------------------------------::");
                 break;
             case 5:
                 Console.Clear();
@@ -166,6 +160,7 @@ while (true)
                 {
                     teacher.GetInfo(disciplines);
                 }
+                Console.WriteLine("::------------------------------::");
                 break;
             case 6:
                 Console.Clear();
@@ -173,11 +168,14 @@ while (true)
                 {
                     discipline.GetInfo(students);
                 }
+                Console.WriteLine("::------------------------------::");
                 break;
             case 7:
+                Console.Clear();
                 Console.WriteLine("Введите данные для поиска: ");
                 string name_input = Console.ReadLine()!;
                 Search(name_input, teachers, students);
+                Console.WriteLine("::------------------------------::");
                 break;
             case 8:
                 Console.Clear();
@@ -234,11 +232,11 @@ while (true)
                                 TempId = Int32.Parse(Console.ReadLine()!);
                                 foreach (var teacher in teachers.Where(p => p.Id == TempId))
                                     disciplin.teacher.Name = teacher.Name;
-
                             }
                             break;
                     }
                 }
+                Console.WriteLine("::------------------------------::");
                 break;
             case 9:
                 return;
@@ -304,7 +302,6 @@ class Student : User
         Console.WriteLine("он будет выводить сообщение, что это студент");
     }
 }
-
 
 class Teacher : User
 {
@@ -401,6 +398,6 @@ class Discipline : Course
                 NumbOfStudents++;
             }
         }
-        Console.WriteLine($"Число студентов, обучающихся по данной дисциплине: {NumbOfStudents}");
+        Console.WriteLine($"Число студентов, обучающихся по данной дисциплине: {NumbOfStudents}\n");
     }
 }
